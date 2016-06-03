@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">OrdersDice</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_player_edit">PlayerEditActivity</string>
+    <string name="diceLabel">Dice:</string>
+    <string name="playersLabel">Players:</string>
 </resources>

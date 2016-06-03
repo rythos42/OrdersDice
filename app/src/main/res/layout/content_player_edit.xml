@@ -9,28 +9,24 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.geeksong.ordersdice.StartActivity"
-    tools:showIn="@layout/activity_start">
+    tools:context="com.geeksong.ordersdice.PlayerEditActivity"
+    tools:showIn="@layout/activity_player_edit">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/playersLabel"
-        android:id="@+id/textView" />
-
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/playerList"
+        android:text="@string/diceLabel"
+        android:id="@+id/diceCountLabel"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/playerCounterPicker"
-        android:layout_toEndOf="@+id/playerCounterPicker" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <NumberPicker
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/playerCounterPicker"
-        android:layout_below="@+id/textView"
+        android:id="@+id/diceCountPicker"
+        android:layout_toEndOf="@+id/diceCountLabel"
+        android:layout_toRightOf="@+id/diceCountLabel"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
