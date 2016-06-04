@@ -20,11 +20,19 @@
         </activity>
         <activity
             android:name=".PlayerEditActivity"
-            android:parentActivityName=".PlayerEditActivity"
+            android:parentActivityName=".StartActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.geeksong.ordersdice.PlayerEditActivity" />
+                android:value="com.geeksong.ordersdice.StartActivity" />
+        </activity>
+        <activity
+            android:name=".DiceRollingActivity"
+            android:parentActivityName=".StartActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.geeksong.ordersdice.StartActivity" />
         </activity>
     </application>
 

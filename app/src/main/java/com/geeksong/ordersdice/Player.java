@@ -2,11 +2,12 @@ package com.geeksong.ordersdice;
 
 import android.graphics.Color;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
-public class Player {
+public class Player implements Serializable {
     private int id;
     private String name;
     private int diceCount;

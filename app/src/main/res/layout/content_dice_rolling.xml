@@ -9,30 +9,21 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.geeksong.ordersdice.StartActivity"
-    tools:showIn="@layout/activity_start">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/playersLabel"
-        android:id="@+id/textView" />
+    tools:context="com.geeksong.ordersdice.DiceRollingActivity"
+    tools:showIn="@layout/activity_dice_rolling">
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/playerList"
+        android:id="@+id/remainingDiceList"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/playerCounterPicker"
-        android:layout_toEndOf="@+id/playerCounterPicker"
-        android:layout_marginLeft="10dp" />
-
-    <NumberPicker
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/playerCounterPicker"
-        android:layout_below="@+id/textView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Button"
+        android:id="@+id/button"
+        android:layout_below="@+id/remainingDiceList" />
 </RelativeLayout>

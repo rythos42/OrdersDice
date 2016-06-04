@@ -34,17 +34,20 @@ public class StartActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        final Activity thisActivity = this;
+        playerList = new ArrayList<Player>();
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.playButton);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent diceRollingIntent = new Intent(thisActivity, DiceRollingActivity.class);
+                diceRollingIntent.putExtra(DiceRollingActivity.PlayerList, playerList);
+
+                startActivity(diceRollingIntent);
             }
         });
 
-        playerList = new ArrayList<Player>();
-        final Activity thisActivity = this;
 
         ListView playerListView = (ListView) findViewById(R.id.playerList);
         playerListViewAdapter = new PlayerArrayAdapter(this, R.layout.player_options_item, playerList);
