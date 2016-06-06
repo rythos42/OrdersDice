@@ -12,22 +12,80 @@
     tools:context="com.geeksong.ordersdice.PlayerEditActivity"
     tools:showIn="@layout/activity_player_edit">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/linearLayout"
         android:layout_height="wrap_content"
-        android:text="@string/diceLabel"
-        android:id="@+id/diceCountLabel"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_width="fill_parent"
+        android:orientation="horizontal"
+        android:weightSum="1.0">
 
-    <NumberPicker
-        android:layout_width="wrap_content"
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/playerName"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/playerName"
+            android:layout_toEndOf="@+id/playerName">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/diceLabel"
+                android:id="@+id/diceCountLabel"
+                android:layout_marginLeft="5dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/currentDiceCount"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/diceCountLabel"
+                android:layout_toEndOf="@+id/diceCountLabel" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+"
+                android:id="@+id/increaseDiceCount"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/currentDiceCount"
+                android:layout_toEndOf="@+id/currentDiceCount" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-"
+                android:id="@+id/decreaseDiceCount"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/increaseDiceCount"
+                android:layout_toEndOf="@+id/increaseDiceCount" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.rarepebble.colorpicker.ColorPickerView
         android:layout_height="wrap_content"
-        android:id="@+id/diceCountPicker"
-        android:layout_toEndOf="@+id/diceCountLabel"
-        android:layout_toRightOf="@+id/diceCountLabel"
+        android:layout_width="wrap_content"
+        app:colorpicker_defaultColor="#ffffff"
+        android:layout_below="@+id/linearLayout"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:id="@+id/colourPicker" />
 
 </RelativeLayout>

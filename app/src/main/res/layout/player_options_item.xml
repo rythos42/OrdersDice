@@ -22,13 +22,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="diceCount"
         android:id="@+id/diceCount" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="dice"
+        android:text=" dice"
         android:id="@+id/diceCountLabel" />
 
 </LinearLayout>

@@ -4,14 +4,13 @@ import android.graphics.Color;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.Hashtable;
 
 public class Player implements Serializable {
     private int id;
     private String name;
     private int diceCount;
     private int initialDiceCount;
+    private int colour;
 
     private static ArrayList<Integer> colours = new ArrayList<Integer>();
     private static int MaxPlayers;
@@ -27,8 +26,6 @@ public class Player implements Serializable {
         colours.add(Color.GRAY);
         colours.add(Color.LTGRAY);
         colours.add(Color.MAGENTA);
-
-        MaxPlayers = colours.size();
     }
 
     public Player(int id) {
@@ -36,6 +33,7 @@ public class Player implements Serializable {
         this.name = "PLAYER " + (id + 1);
         this.diceCount = 6;
         this.initialDiceCount = 6;
+        this.colour = colours.get(id % colours.size());
     }
 
     public String getName() { return this.name; }
@@ -50,7 +48,6 @@ public class Player implements Serializable {
     public void resetDice() { this.diceCount = this.initialDiceCount; }
     public boolean hasDiceRemaining() { return this.diceCount != 0; }
 
-    public int getColour() { return colours.get(this.id); }
-
-    public static int getMaximumPlayerCount() { return MaxPlayers; }
+    public int getColour() { return this.colour; }
+    public void setColour(int colour) { this.colour = colour; }
 }
