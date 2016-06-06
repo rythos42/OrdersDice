@@ -11,6 +11,7 @@ public class Player implements Serializable {
     private int id;
     private String name;
     private int diceCount;
+    private int initialDiceCount;
 
     private static ArrayList<Integer> colours = new ArrayList<Integer>();
     private static int MaxPlayers;
@@ -34,13 +35,20 @@ public class Player implements Serializable {
         this.id = id;
         this.name = "PLAYER " + (id + 1);
         this.diceCount = 6;
+        this.initialDiceCount = 6;
     }
 
     public String getName() { return this.name; }
     public void setName(String name) { this.name = name; }
 
-    public int getDiceCount() { return this.diceCount; }
-    public void setDiceCount(int diceCount) { this.diceCount = diceCount; }
+    public void setDiceCount(int diceCount) {
+        this.diceCount = diceCount;
+        this.initialDiceCount = diceCount;
+    }
+    public int getCurrentDiceCount() { return this.diceCount; }
+    public void removeDice() { this.diceCount--; }
+    public void resetDice() { this.diceCount = this.initialDiceCount; }
+    public boolean hasDiceRemaining() { return this.diceCount != 0; }
 
     public int getColour() { return colours.get(this.id); }
 

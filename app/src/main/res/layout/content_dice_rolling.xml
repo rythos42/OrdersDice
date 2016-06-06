@@ -23,7 +23,27 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button"
-        android:layout_below="@+id/remainingDiceList" />
+        android:text="Draw"
+        android:id="@+id/drawButton"
+        android:layout_below="@+id/remainingDiceList"
+        android:onClick="drawButtonClick" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/drawnPlayerName"
+        android:layout_alignBottom="@+id/drawButton"
+        android:layout_toRightOf="@+id/drawButton"
+        android:layout_toEndOf="@+id/drawButton" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next Round"
+        android:id="@+id/nextRound"
+        android:layout_below="@+id/remainingDiceList"
+        android:visibility="invisible"
+        android:onClick="nextRoundClick" />
+
 </RelativeLayout>

@@ -11,12 +11,16 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public class PlayerArrayAdapter extends ArrayAdapter<Player> {
     private Activity activity;
     private ArrayList<Player> playerList;
     private static LayoutInflater inflater = null;
     private int textViewResourceId;
+    private HashMap<Integer, Boolean> selectedPlayerPositions = new HashMap<Integer, Boolean>();
 
     public PlayerArrayAdapter(Activity activity, int textViewResourceId, ArrayList<Player> playerList) {
         super(activity, textViewResourceId, playerList);
@@ -36,6 +40,25 @@ public class PlayerArrayAdapter extends ArrayAdapter<Player> {
 
     @Override
     public long getItemId(int position) { return position; }
+
+    public void clearSelected() {
+        selectedPlayerPositions.clear();
+    }
+
+    public void togglePlayerSelection(int position) {
+        if(selectedPlayerPositions.containsKey(position))
+            selectedPlayerPositions.remove(position);
+        else
+            selectedPlayerPositions.put(position, true);
+    }
+
+    public Set<Player> getSelectedPlayers() {
+        Set<Player> selectedPlayers = new HashSet<Player>();
+        for (int selectedPlayerPosition : selectedPlayerPositions.keySet()) {
+            selectedPlayers.add(playerList.get(selectedPlayerPosition));
+        }
+        return selectedPlayers;
+    }
 
     public static class ViewHolder {
         public TextView name;
@@ -62,7 +85,7 @@ public class PlayerArrayAdapter extends ArrayAdapter<Player> {
         Player player = playerList.get(position);
         holder.name.setText(player.getName());
         holder.colour.setBackgroundColor(player.getColour());
-        holder.diceCount.setText(String.valueOf(player.getDiceCount()));
+        holder.diceCount.setText(String.valueOf(player.getCurrentDiceCount()));
 
         return vi;
     }
