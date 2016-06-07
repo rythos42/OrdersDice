@@ -20,7 +20,7 @@ public class PlayerArrayAdapter extends ArrayAdapter<Player> {
     private ArrayList<Player> playerList;
     private static LayoutInflater inflater = null;
     private int textViewResourceId;
-    private HashMap<Integer, Boolean> selectedPlayerPositions = new HashMap<Integer, Boolean>();
+    private ArrayList<Integer> selectedPlayerPositions = new ArrayList<Integer>();
 
     public PlayerArrayAdapter(Activity activity, int textViewResourceId, ArrayList<Player> playerList) {
         super(activity, textViewResourceId, playerList);
@@ -46,15 +46,15 @@ public class PlayerArrayAdapter extends ArrayAdapter<Player> {
     }
 
     public void togglePlayerSelection(int position) {
-        if(selectedPlayerPositions.containsKey(position))
+        if(selectedPlayerPositions.contains(position))
             selectedPlayerPositions.remove(position);
         else
-            selectedPlayerPositions.put(position, true);
+            selectedPlayerPositions.add(position);
     }
 
     public Set<Player> getSelectedPlayers() {
         Set<Player> selectedPlayers = new HashSet<Player>();
-        for (int selectedPlayerPosition : selectedPlayerPositions.keySet()) {
+        for (int selectedPlayerPosition : selectedPlayerPositions) {
             selectedPlayers.add(playerList.get(selectedPlayerPosition));
         }
         return selectedPlayers;
