@@ -19,6 +19,7 @@ import java.util.Random;
 
 public class DiceRollingActivity extends AppCompatActivity {
     public static final String PlayerList = "DiceRolling.PlayerList";
+    public static final String DiceList = "DiceRolling.DiceList";
 
     private ArrayList<Player> playerList;
     private PlayerArrayAdapter playerAdapter;
@@ -36,10 +37,16 @@ public class DiceRollingActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        playerList = (ArrayList<Player>) getIntent().getSerializableExtra(PlayerList);
+        if(savedInstanceState == null) {
+            this.playerList = (ArrayList<Player>) getIntent().getSerializableExtra(PlayerList);
+            this.drawnDiceList = new ArrayList<Integer>();
+        } else {
+            this.playerList = (ArrayList<Player>) savedInstanceState.getSerializable(PlayerList);
+            this.drawnDiceList = (ArrayList<Integer>) savedInstanceState.getSerializable(DiceList);
+        }
+        checkDiceInBag();
 
         final ListView drawnDiceListView = (ListView) findViewById(R.id.drawnDiceList);
-        drawnDiceList = new ArrayList<Integer>();
         drawnDiceAdapter = new DrawnDiceArrayAdapter(this, R.layout.drawn_dice_item, drawnDiceList, playerList);
         drawnDiceListView.setAdapter(drawnDiceAdapter);
 
@@ -82,6 +89,24 @@ public class DiceRollingActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putSerializable(PlayerList, this.playerList);
+        savedInstanceState.putSerializable(DiceList, this.drawnDiceList);
+
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    public void checkDiceInBag() {
+        for(Player player: playerList) {
+            if(player.hasDiceRemaining())
+                return;
+        }
+
+        findViewById(R.id.drawButton).setVisibility(View.GONE);
+        findViewById(R.id.nextRound).setVisibility(View.VISIBLE);
+    }
+
     public void drawButtonClick(View v) {
         int totalDiceInBag = 0;
         for (Player player: playerList) {
@@ -102,18 +127,7 @@ public class DiceRollingActivity extends AppCompatActivity {
             }
         }
 
-        boolean isBagEmpty = true;
-        for(Player player: playerList) {
-            if(player.hasDiceRemaining()) {
-                isBagEmpty = false;
-                break;
-            }
-        }
-
-        if(isBagEmpty) {
-            findViewById(R.id.drawButton).setVisibility(View.GONE);
-            findViewById(R.id.nextRound).setVisibility(View.VISIBLE);
-        }
+        checkDiceInBag();
     }
 
     public void nextRoundClick(View v) {

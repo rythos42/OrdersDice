@@ -41,10 +41,17 @@ public class PlayerEditActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        this.diceCount = getIntent().getIntExtra(DiceCount, 6);
-        this.playerId = getIntent().getIntExtra(PlayerId, 0);
-        this.name = getIntent().getStringExtra(Name);
-        this.colour = getIntent().getIntExtra(Colour, Color.BLACK);
+        if(savedInstanceState == null) {
+            this.diceCount = getIntent().getIntExtra(DiceCount, 6);
+            this.playerId = getIntent().getIntExtra(PlayerId, 0);
+            this.name = getIntent().getStringExtra(Name);
+            this.colour = getIntent().getIntExtra(Colour, Color.BLACK);
+        } else {
+            this.diceCount = savedInstanceState.getInt(DiceCount);
+            this.playerId = savedInstanceState.getInt(PlayerId);
+            this.name = savedInstanceState.getString(Name);
+            this.colour = savedInstanceState.getInt(Colour);
+        }
 
         ((TextView)findViewById(R.id.currentDiceCount)).setText(String.valueOf(this.diceCount));
 
@@ -91,6 +98,16 @@ public class PlayerEditActivity extends AppCompatActivity {
                 activity.colour = observableColor.getColor();
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putSerializable(PlayerId, this.playerId);
+        savedInstanceState.putSerializable(Name, this.name);
+        savedInstanceState.putSerializable(DiceCount, this.diceCount);
+        savedInstanceState.putSerializable(Colour, this.colour);
+
+        super.onSaveInstanceState(savedInstanceState);
     }
 
     @Override

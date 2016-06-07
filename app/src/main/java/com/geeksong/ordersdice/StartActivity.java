@@ -30,6 +30,8 @@ public class StartActivity extends AppCompatActivity {
 
     private static final int Request_PlayerEdit = 1;
 
+    private static final String PlayerList = "Start.PlayerList";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,9 +40,13 @@ public class StartActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         final Activity thisActivity = this;
-        playerList = new ArrayList<Player>();
-        playerList.add(new Player(0));
-        playerList.add(new Player(1));
+        if(savedInstanceState == null) {
+            this.playerList = new ArrayList<Player>();
+            this.playerList.add(new Player(0));
+            this.playerList.add(new Player(1));
+        } else {
+            this.playerList = (ArrayList<Player>) savedInstanceState.getSerializable(PlayerList);
+        }
 
         FloatingActionButton playButton = (FloatingActionButton) findViewById(R.id.playButton);
         playButton.setOnClickListener(new View.OnClickListener() {
@@ -83,10 +89,20 @@ public class StartActivity extends AppCompatActivity {
         decreasePlayerCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(playerList.size() == 0)
+                    return;
+
                 playerList.remove(playerList.size() - 1);
                 playerListViewAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putSerializable(PlayerList, this.playerList);
+
+        super.onSaveInstanceState(savedInstanceState);
     }
 
     @Override
