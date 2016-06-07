@@ -21,7 +21,10 @@ public class DiceRollingActivity extends AppCompatActivity {
     public static final String PlayerList = "DiceRolling.PlayerList";
 
     private ArrayList<Player> playerList;
-    private PlayerArrayAdapter adapter;
+    private PlayerArrayAdapter playerAdapter;
+
+    private ArrayList<Integer> drawnDiceList;
+    private DrawnDiceArrayAdapter drawnDiceAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +38,15 @@ public class DiceRollingActivity extends AppCompatActivity {
 
         playerList = (ArrayList<Player>) getIntent().getSerializableExtra(PlayerList);
 
-        final ListView remainingDiceListView = (ListView) findViewById(R.id.remainingDiceList);
-        adapter = new PlayerArrayAdapter(this, R.layout.player_options_item, playerList);
-        remainingDiceListView.setAdapter(adapter);
-        remainingDiceListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        final ListView drawnDiceListView = (ListView) findViewById(R.id.drawnDiceList);
+        drawnDiceList = new ArrayList<Integer>();
+        drawnDiceAdapter = new DrawnDiceArrayAdapter(this, R.layout.drawn_dice_item, drawnDiceList, playerList);
+        drawnDiceListView.setAdapter(drawnDiceAdapter);
 
+        final ListView remainingDiceListView = (ListView) findViewById(R.id.remainingDiceList);
+        playerAdapter = new PlayerArrayAdapter(this, R.layout.player_options_item, playerList);
+        remainingDiceListView.setAdapter(playerAdapter);
+        remainingDiceListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
         remainingDiceListView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
             @Override
             public boolean onCreateActionMode(android.view.ActionMode mode, Menu menu) {
@@ -51,7 +58,7 @@ public class DiceRollingActivity extends AppCompatActivity {
             public boolean onActionItemClicked(android.view.ActionMode mode, MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_remove_dice:
-                        for(Player selectedPlayer : adapter.getSelectedPlayers())
+                        for(Player selectedPlayer : playerAdapter.getSelectedPlayers())
                             selectedPlayer.removeDice();
                         mode.finish();
                         return true;
@@ -65,12 +72,12 @@ public class DiceRollingActivity extends AppCompatActivity {
 
             @Override
             public void onItemCheckedStateChanged(android.view.ActionMode mode, int position, long id, boolean checked) {
-                adapter.togglePlayerSelection(position);
+                playerAdapter.togglePlayerSelection(position);
             }
 
             @Override
             public void onDestroyActionMode(android.view.ActionMode mode) {
-                adapter.clearSelected();
+                playerAdapter.clearSelected();
             }
         });
     }
@@ -86,10 +93,11 @@ public class DiceRollingActivity extends AppCompatActivity {
         for (Player player: playerList) {
             totalDiceInBag -= player.getCurrentDiceCount();
             if(totalDiceInBag < draw) {
-                TextView drawnPlayerNameText = (TextView) findViewById(R.id.drawnPlayerName);
-                drawnPlayerNameText.setText(player.getName());
-                player.removeDice();
-                adapter.notifyDataSetChanged();
+                drawnDiceList.add(player.getId());
+                drawnDiceAdapter.notifyDataSetChanged();
+
+                player.drawDice();
+                playerAdapter.notifyDataSetChanged();
                 break;
             }
         }
@@ -103,7 +111,7 @@ public class DiceRollingActivity extends AppCompatActivity {
         }
 
         if(isBagEmpty) {
-            findViewById(R.id.drawButton).setVisibility(View.INVISIBLE);
+            findViewById(R.id.drawButton).setVisibility(View.GONE);
             findViewById(R.id.nextRound).setVisibility(View.VISIBLE);
         }
     }
@@ -111,11 +119,12 @@ public class DiceRollingActivity extends AppCompatActivity {
     public void nextRoundClick(View v) {
         for(Player player: playerList)
             player.resetDice();
+        playerAdapter.notifyDataSetChanged();
+
+        drawnDiceList.clear();
+        drawnDiceAdapter.notifyDataSetChanged();
 
         findViewById(R.id.drawButton).setVisibility(View.VISIBLE);
-        findViewById(R.id.nextRound).setVisibility(View.INVISIBLE);
-        ((TextView) findViewById(R.id.drawnPlayerName)).setText("");
-
-        adapter.notifyDataSetChanged();
+        findViewById(R.id.nextRound).setVisibility(View.GONE);
     }
 }

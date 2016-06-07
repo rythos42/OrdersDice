@@ -36,6 +36,8 @@ public class Player implements Serializable {
         this.colour = colours.get(id % colours.size());
     }
 
+    public int getId() { return this.id; }
+
     public String getName() { return this.name; }
     public void setName(String name) { this.name = name; }
 
@@ -44,9 +46,17 @@ public class Player implements Serializable {
         this.initialDiceCount = diceCount;
     }
     public int getCurrentDiceCount() { return this.diceCount; }
-    public void removeDice() { this.diceCount--; }
     public void resetDice() { this.diceCount = this.initialDiceCount; }
     public boolean hasDiceRemaining() { return this.diceCount != 0; }
+
+    public void removeDice() {
+        this.diceCount--;
+        this.initialDiceCount--;
+    }
+
+    public void drawDice() {
+        this.diceCount--;
+    }
 
     public int getColour() { return this.colour; }
     public void setColour(int colour) { this.colour = colour; }
