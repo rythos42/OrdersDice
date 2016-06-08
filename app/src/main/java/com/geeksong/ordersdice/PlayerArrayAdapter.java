@@ -63,7 +63,8 @@ public class PlayerArrayAdapter extends ArrayAdapter<Player> {
     public static class ViewHolder {
         public TextView name;
         public TextView colour;
-        public TextView diceCount;
+        public TextView currentDiceCount;
+        public TextView initialDiceCount;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -75,7 +76,8 @@ public class PlayerArrayAdapter extends ArrayAdapter<Player> {
             holder = new ViewHolder();
             holder.name = (TextView) vi.findViewById(R.id.playerName);
             holder.colour = (TextView) vi.findViewById(R.id.playerColour);
-            holder.diceCount = (TextView) vi.findViewById(R.id.diceCount);
+            holder.currentDiceCount = (TextView) vi.findViewById(R.id.currentDiceCount);
+            holder.initialDiceCount = (TextView) vi.findViewById(R.id.initialDiceCount);
 
             vi.setTag(holder);
         } else {
@@ -85,7 +87,8 @@ public class PlayerArrayAdapter extends ArrayAdapter<Player> {
         Player player = playerList.get(position);
         holder.name.setText(player.getName());
         holder.colour.setBackgroundColor(player.getColour());
-        holder.diceCount.setText(String.valueOf(player.getCurrentDiceCount()));
+        holder.currentDiceCount.setText(String.valueOf(player.getCurrentDiceCount()));
+        holder.initialDiceCount.setText(String.valueOf(player.getInitialDiceCount()));
 
         return vi;
     }

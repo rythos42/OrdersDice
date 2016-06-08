@@ -15,28 +15,25 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Player"
-        android:id="@+id/increasePlayerCount"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:text="Add Distort"
+        android:id="@+id/addDistortDiceButton"
+        android:layout_alignParentTop="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Remove Player"
-        android:id="@+id/decreasePlayerCount"
-        android:layout_above="@+id/playerList"
-        android:layout_toRightOf="@+id/increasePlayerCount"
-        android:layout_toEndOf="@+id/increasePlayerCount" />
+        android:text="Reset"
+        android:id="@+id/resetButton"
+        android:layout_alignTop="@+id/addDistortDiceButton"
+        android:layout_toRightOf="@+id/addDistortDiceButton"
+        android:layout_toEndOf="@+id/addDistortDiceButton" />
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/playerList"
-        android:layout_below="@+id/increasePlayerCount"
+        android:layout_below="@+id/addDistortDiceButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
-
 
 </RelativeLayout>

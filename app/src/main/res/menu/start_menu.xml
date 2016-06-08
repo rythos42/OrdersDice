@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context="com.geeksong.ordersdice.StartActivity">
+    <item android:id="@+id/addPlayer"
+        android:icon="@drawable/ic_person_add_white_24dp"
+        android:title="Add Player"
+        app:showAsAction="always"/>
+    <item android:id="@+id/removePlayer"
+        android:icon="@drawable/ic_person_remove_white_24dp"
+        android:title="Remove Player"
+        app:showAsAction="always"/>
+</menu>

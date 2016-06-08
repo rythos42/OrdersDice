@@ -13,14 +13,12 @@ public class Player implements Serializable {
     private int colour;
 
     private static ArrayList<Integer> colours = new ArrayList<Integer>();
-    private static int MaxPlayers;
 
     static {
         colours.add(Color.BLUE);
         colours.add(Color.RED);
         colours.add(Color.YELLOW);
         colours.add(Color.GREEN);
-        colours.add(Color.BLACK);
         colours.add(Color.CYAN);
         colours.add(Color.DKGRAY);
         colours.add(Color.GRAY);
@@ -36,6 +34,14 @@ public class Player implements Serializable {
         this.colour = colours.get(id % colours.size());
     }
 
+    public static Player createDistortDicePlayer(int id) {
+        Player distort = new Player(id);
+        distort.setDiceCount(1);
+        distort.setName("DISTORT");
+        distort.setColour(Color.BLACK);
+        return distort;
+    }
+
     public int getId() { return this.id; }
 
     public String getName() { return this.name; }
@@ -46,12 +52,16 @@ public class Player implements Serializable {
         this.initialDiceCount = diceCount;
     }
     public int getCurrentDiceCount() { return this.diceCount; }
+    public int getInitialDiceCount() { return this.initialDiceCount; }
     public void resetDice() { this.diceCount = this.initialDiceCount; }
     public boolean hasDiceRemaining() { return this.diceCount != 0; }
 
     public void removeDice() {
-        this.diceCount--;
-        this.initialDiceCount--;
+        if(this.diceCount > 0)
+            this.diceCount--;
+
+        if(this.initialDiceCount > 0)
+            this.initialDiceCount--;
     }
 
     public void drawDice() {
@@ -60,4 +70,12 @@ public class Player implements Serializable {
 
     public int getColour() { return this.colour; }
     public void setColour(int colour) { this.colour = colour; }
+
+    public void copyFrom(Player other) {
+        this.id = other.id;
+        this.name = other.name;
+        this.diceCount = other.diceCount;
+        this.initialDiceCount = other.initialDiceCount;
+        this.colour = other.colour;
+    }
 }

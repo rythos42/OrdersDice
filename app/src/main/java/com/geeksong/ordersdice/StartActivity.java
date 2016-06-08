@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,8 +30,11 @@ public class StartActivity extends AppCompatActivity {
     private ArrayAdapter<Player> playerListViewAdapter;
 
     private static final int Request_PlayerEdit = 1;
+    private static final int Request_RollDice = 2;
 
     private static final String PlayerList = "Start.PlayerList";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +43,7 @@ public class StartActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final Activity thisActivity = this;
+        final StartActivity thisActivity = this;
         if(savedInstanceState == null) {
             this.playerList = new ArrayList<Player>();
             this.playerList.add(new Player(0));
@@ -55,7 +59,7 @@ public class StartActivity extends AppCompatActivity {
                 Intent diceRollingIntent = new Intent(thisActivity, DiceRollingActivity.class);
                 diceRollingIntent.putExtra(DiceRollingActivity.PlayerList, playerList);
 
-                startActivity(diceRollingIntent);
+                startActivityForResult(diceRollingIntent, Request_RollDice);
             }
         });
 
@@ -76,26 +80,38 @@ public class StartActivity extends AppCompatActivity {
             }
         });
 
-        Button increasePlayerCount = (Button) findViewById(R.id.increasePlayerCount);
-        increasePlayerCount.setOnClickListener(new View.OnClickListener() {
+        Button addDistortDiceButton = (Button) findViewById(R.id.addDistortDiceButton);
+        addDistortDiceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playerList.add(new Player(playerList.size()));
+                playerList.add(Player.createDistortDicePlayer(playerList.size()));
                 playerListViewAdapter.notifyDataSetChanged();
             }
         });
 
-        Button decreasePlayerCount = (Button) findViewById(R.id.decreasePlayerCount);
-        decreasePlayerCount.setOnClickListener(new View.OnClickListener() {
+        Button resetButton = (Button) findViewById(R.id.resetButton);
+        resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(playerList.size() == 0)
-                    return;
-
-                playerList.remove(playerList.size() - 1);
+                playerList.clear();
+                playerList.add(new Player(0));
+                playerList.add(new Player(1));
                 playerListViewAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    private void addPlayer() {
+        playerList.add(new Player(playerList.size()));
+        playerListViewAdapter.notifyDataSetChanged();
+    }
+
+    private void removePlayer() {
+        if(playerList.size() == 0)
+            return;
+
+        playerList.remove(playerList.size() - 1);
+        playerListViewAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -113,14 +129,46 @@ public class StartActivity extends AppCompatActivity {
             case Request_PlayerEdit:
                 int playerId = data.getIntExtra(PlayerEditActivity.PlayerId, 1);
 
-                Player player = playerList.get(playerId);
-                player.setDiceCount(data.getIntExtra(PlayerEditActivity.DiceCount, 6));
-                player.setName(data.getStringExtra(PlayerEditActivity.Name));
-                player.setColour(data.getIntExtra(PlayerEditActivity.Colour, Color.BLACK));
+                Player editedPlayer = playerList.get(playerId);
+                editedPlayer.setDiceCount(data.getIntExtra(PlayerEditActivity.DiceCount, 6));
+                editedPlayer.setName(data.getStringExtra(PlayerEditActivity.Name));
+                editedPlayer.setColour(data.getIntExtra(PlayerEditActivity.Colour, Color.BLACK));
 
                 playerListViewAdapter.notifyDataSetChanged();
 
                 break;
+
+            case Request_RollDice:
+                ArrayList<Player> newPlayerList = (ArrayList<Player>)data.getSerializableExtra(DiceRollingActivity.PlayerList);
+                for(Player otherPlayer : newPlayerList) {
+                    Player existingPlayer = this.playerList.get(otherPlayer.getId());
+                    existingPlayer.copyFrom(otherPlayer);
+                }
+
+                playerListViewAdapter.notifyDataSetChanged();
+
+                break;
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.start_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.addPlayer:
+                addPlayer();
+                return true;
+            case R.id.removePlayer:
+                removePlayer();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

@@ -141,4 +141,23 @@ public class DiceRollingActivity extends AppCompatActivity {
         findViewById(R.id.drawButton).setVisibility(View.VISIBLE);
         findViewById(R.id.nextRound).setVisibility(View.GONE);
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void finish() {
+        Intent intent = new Intent();
+        intent.putExtra(PlayerList, this.playerList);
+        this.setResult(RESULT_OK, intent);
+
+        super.finish();
+    }
 }
