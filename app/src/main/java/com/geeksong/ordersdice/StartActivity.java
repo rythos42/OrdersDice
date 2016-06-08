@@ -34,8 +34,6 @@ public class StartActivity extends AppCompatActivity {
 
     private static final String PlayerList = "Start.PlayerList";
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,26 +77,6 @@ public class StartActivity extends AppCompatActivity {
                 startActivityForResult(editPlayerIntent, Request_PlayerEdit);
             }
         });
-
-        Button addDistortDiceButton = (Button) findViewById(R.id.addDistortDiceButton);
-        addDistortDiceButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                playerList.add(Player.createDistortDicePlayer(playerList.size()));
-                playerListViewAdapter.notifyDataSetChanged();
-            }
-        });
-
-        Button resetButton = (Button) findViewById(R.id.resetButton);
-        resetButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                playerList.clear();
-                playerList.add(new Player(0));
-                playerList.add(new Player(1));
-                playerListViewAdapter.notifyDataSetChanged();
-            }
-        });
     }
 
     private void addPlayer() {
@@ -111,6 +89,18 @@ public class StartActivity extends AppCompatActivity {
             return;
 
         playerList.remove(playerList.size() - 1);
+        playerListViewAdapter.notifyDataSetChanged();
+    }
+
+    private void reset() {
+        playerList.clear();
+        playerList.add(new Player(0));
+        playerList.add(new Player(1));
+        playerListViewAdapter.notifyDataSetChanged();
+    }
+
+    private void addDistortDice() {
+        playerList.add(Player.createDistortDicePlayer(playerList.size()));
         playerListViewAdapter.notifyDataSetChanged();
     }
 
@@ -161,14 +151,11 @@ public class StartActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.addPlayer:
-                addPlayer();
-                return true;
-            case R.id.removePlayer:
-                removePlayer();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+            case R.id.addPlayer: addPlayer(); return true;
+            case R.id.removePlayer: removePlayer(); return true;
+            case R.id.reset: reset(); return true;
+            case R.id.addDistortDice: addDistortDice(); return true;
+            default: return super.onOptionsItemSelected(item);
         }
     }
 }
