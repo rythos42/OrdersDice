@@ -69,6 +69,9 @@ public class PlayerEditActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 diceCount--;
+                if(diceCount < 0)
+                    diceCount = 0;
+
                 ((TextView) findViewById(R.id.currentDiceCount)).setText(String.valueOf(diceCount));
             }
         });
