@@ -48,8 +48,16 @@
             android:layout_height="wrap_content"
             android:text="Next Round"
             android:id="@+id/nextRound"
-            android:visibility="invisible"
+            android:visibility="gone"
             android:onClick="nextRoundClick" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Block!"
+            android:id="@+id/block"
+            android:visibility="gone"
+            android:onClick="blockClick" />
     </LinearLayout>
 
     <ListView

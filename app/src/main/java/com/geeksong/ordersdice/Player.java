@@ -67,6 +67,7 @@ public class Player implements Serializable {
     public void drawDice() {
         this.diceCount--;
     }
+    public void putDiceBack() { this.diceCount++; }
 
     public int getColour() { return this.colour; }
     public void setColour(int colour) { this.colour = colour; }

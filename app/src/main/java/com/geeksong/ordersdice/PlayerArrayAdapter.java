@@ -2,8 +2,6 @@ package com.geeksong.ordersdice;
 
 import android.app.Activity;
 import android.content.Context;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,21 +9,18 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
 public class PlayerArrayAdapter extends ArrayAdapter<Player> {
-    private Activity activity;
-    private ArrayList<Player> playerList;
+    private PlayerList playerList;
     private static LayoutInflater inflater = null;
     private int textViewResourceId;
-    private ArrayList<Integer> selectedPlayerPositions = new ArrayList<Integer>();
+    private ArrayList<Integer> selectedPlayerPositions = new ArrayList<>();
 
-    public PlayerArrayAdapter(Activity activity, int textViewResourceId, ArrayList<Player> playerList) {
-        super(activity, textViewResourceId, playerList);
+    public PlayerArrayAdapter(Activity activity, int textViewResourceId, PlayerList playerList) {
+        super(activity, textViewResourceId, playerList.playerList);
 
-        this.activity = activity;
         this.playerList = playerList;
         this.textViewResourceId = textViewResourceId;
 
@@ -36,7 +31,7 @@ public class PlayerArrayAdapter extends ArrayAdapter<Player> {
     public int getCount() { return playerList.size(); }
 
     @Override
-    public Player getItem(int position) { return this.playerList.get(position); }
+    public Player getItem(int position) { return this.playerList.getById(position); }
 
     @Override
     public long getItemId(int position) { return position; }
@@ -53,9 +48,9 @@ public class PlayerArrayAdapter extends ArrayAdapter<Player> {
     }
 
     public Set<Player> getSelectedPlayers() {
-        Set<Player> selectedPlayers = new HashSet<Player>();
+        Set<Player> selectedPlayers = new HashSet<>();
         for (int selectedPlayerPosition : selectedPlayerPositions) {
-            selectedPlayers.add(playerList.get(selectedPlayerPosition));
+            selectedPlayers.add(playerList.getById(selectedPlayerPosition));
         }
         return selectedPlayers;
     }
@@ -84,7 +79,7 @@ public class PlayerArrayAdapter extends ArrayAdapter<Player> {
             holder = (ViewHolder) vi.getTag();
         }
 
-        Player player = playerList.get(position);
+        Player player = playerList.getById(position);
         holder.name.setText(player.getName());
         holder.colour.setBackgroundColor(player.getColour());
         holder.currentDiceCount.setText(String.valueOf(player.getCurrentDiceCount()));

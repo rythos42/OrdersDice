@@ -12,12 +12,12 @@ import java.util.ArrayList;
 
 public class DrawnDiceArrayAdapter extends ArrayAdapter<Integer> {
     private ArrayList<Integer> drawnDiceList;
-    private ArrayList<Player> playerList;
+    private PlayerList playerList;
     private int textViewResourceId;
 
     private static LayoutInflater inflater = null;
 
-    public DrawnDiceArrayAdapter(Activity activity, int textViewResourceId, ArrayList<Integer> drawnDiceList, ArrayList<Player> playerList) {
+    public DrawnDiceArrayAdapter(Activity activity, int textViewResourceId, ArrayList<Integer> drawnDiceList, PlayerList playerList) {
         super(activity, textViewResourceId, drawnDiceList);
 
         this.drawnDiceList = drawnDiceList;
@@ -57,7 +57,7 @@ public class DrawnDiceArrayAdapter extends ArrayAdapter<Integer> {
         }
 
         int playerId = drawnDiceList.get(position);
-        Player player = playerList.get(playerId);
+        Player player = playerList.getById(playerId);
         holder.drawnPlayerName.setText(player.getName());
         holder.drawnPlayerColour.setBackgroundColor(player.getColour());
 

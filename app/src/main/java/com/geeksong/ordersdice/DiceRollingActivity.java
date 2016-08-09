@@ -3,25 +3,20 @@ package com.geeksong.ordersdice;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.view.ActionMode;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class DiceRollingActivity extends AppCompatActivity {
     public static final String PlayerList = "DiceRolling.PlayerList";
     public static final String DiceList = "DiceRolling.DiceList";
 
-    private ArrayList<Player> playerList;
+    private PlayerList playerList;
     private PlayerArrayAdapter playerAdapter;
 
     private ArrayList<Integer> drawnDiceList;
@@ -38,10 +33,10 @@ public class DiceRollingActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         if(savedInstanceState == null) {
-            this.playerList = (ArrayList<Player>) getIntent().getSerializableExtra(PlayerList);
-            this.drawnDiceList = new ArrayList<Integer>();
+            this.playerList = (PlayerList) getIntent().getSerializableExtra(PlayerList);
+            this.drawnDiceList = new ArrayList<>();
         } else {
-            this.playerList = (ArrayList<Player>) savedInstanceState.getSerializable(PlayerList);
+            this.playerList = (PlayerList) savedInstanceState.getSerializable(PlayerList);
             this.drawnDiceList = (ArrayList<Integer>) savedInstanceState.getSerializable(DiceList);
         }
         checkDiceInBag();
@@ -98,41 +93,32 @@ public class DiceRollingActivity extends AppCompatActivity {
     }
 
     public void checkDiceInBag() {
-        for(Player player: playerList) {
-            if(player.hasDiceRemaining())
-                return;
-        }
+        if(this.playerList.hasDiceRemaining())
+            return;
 
         findViewById(R.id.drawButton).setVisibility(View.GONE);
         findViewById(R.id.nextRound).setVisibility(View.VISIBLE);
     }
 
-    public void drawButtonClick(View v) {
-        int totalDiceInBag = 0;
-        for (Player player: playerList) {
-            totalDiceInBag += player.getCurrentDiceCount();
-        }
+    private void addDrawnPlayerToUi(Player player) {
+        if(player != null) {
+            drawnDiceList.add(player.getId());
+            drawnDiceAdapter.notifyDataSetChanged();
 
-        int draw = new Random().nextInt(totalDiceInBag) + 1;    // draw can't be 0, because we're dealing with real numbers
-
-        for (Player player: playerList) {
-            totalDiceInBag -= player.getCurrentDiceCount();
-            if(totalDiceInBag < draw) {
-                drawnDiceList.add(player.getId());
-                drawnDiceAdapter.notifyDataSetChanged();
-
-                player.drawDice();
-                playerAdapter.notifyDataSetChanged();
-                break;
-            }
+            playerAdapter.notifyDataSetChanged();
         }
 
         checkDiceInBag();
     }
 
+    public void drawButtonClick(View v) {
+        Player drawnPlayer = this.playerList.drawDiceForPlayer();
+        addDrawnPlayerToUi(drawnPlayer);
+        findViewById(R.id.block).setVisibility(View.VISIBLE);
+    }
+
     public void nextRoundClick(View v) {
-        for(Player player: playerList)
-            player.resetDice();
+        this.playerList.resetBag();
         playerAdapter.notifyDataSetChanged();
 
         drawnDiceList.clear();
@@ -140,6 +126,13 @@ public class DiceRollingActivity extends AppCompatActivity {
 
         findViewById(R.id.drawButton).setVisibility(View.VISIBLE);
         findViewById(R.id.nextRound).setVisibility(View.GONE);
+        findViewById(R.id.block).setVisibility(View.GONE);
+    }
+
+    public void blockClick(View view) {
+        int lastDrawnPlayerId = drawnDiceList.remove(drawnDiceList.size() - 1);
+        Player redrawnPlayer = this.playerList.block(lastDrawnPlayerId);
+        addDrawnPlayerToUi(redrawnPlayer);
     }
 
     @Override

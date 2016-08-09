@@ -1,32 +1,21 @@
 package com.geeksong.ordersdice;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.NumberPicker;
-import android.widget.TextView;
-
-import java.util.ArrayList;
 
 public class StartActivity extends AppCompatActivity {
-    private ArrayList<Player> playerList;
+    private PlayerList playerList;
     private ArrayAdapter<Player> playerListViewAdapter;
 
     private static final int Request_PlayerEdit = 1;
@@ -43,11 +32,11 @@ public class StartActivity extends AppCompatActivity {
 
         final StartActivity thisActivity = this;
         if(savedInstanceState == null) {
-            this.playerList = new ArrayList<Player>();
+            this.playerList = new PlayerList();
             this.playerList.add(new Player(0));
             this.playerList.add(new Player(1));
         } else {
-            this.playerList = (ArrayList<Player>) savedInstanceState.getSerializable(PlayerList);
+            this.playerList = (PlayerList) savedInstanceState.getSerializable(PlayerList);
         }
 
         FloatingActionButton playButton = (FloatingActionButton) findViewById(R.id.playButton);
@@ -67,7 +56,7 @@ public class StartActivity extends AppCompatActivity {
         playerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Player player = playerList.get(position);
+                Player player = playerList.getById(position);
                 Intent editPlayerIntent = new Intent(thisActivity, PlayerEditActivity.class);
                 editPlayerIntent.putExtra(PlayerEditActivity.DiceCount, player.getCurrentDiceCount());
                 editPlayerIntent.putExtra(PlayerEditActivity.PlayerId, position);
@@ -88,7 +77,7 @@ public class StartActivity extends AppCompatActivity {
         if(playerList.size() == 0)
             return;
 
-        playerList.remove(playerList.size() - 1);
+        playerList.removeById(playerList.size() - 1);
         playerListViewAdapter.notifyDataSetChanged();
     }
 
@@ -119,7 +108,7 @@ public class StartActivity extends AppCompatActivity {
             case Request_PlayerEdit:
                 int playerId = data.getIntExtra(PlayerEditActivity.PlayerId, 1);
 
-                Player editedPlayer = playerList.get(playerId);
+                Player editedPlayer = playerList.getById(playerId);
                 editedPlayer.setDiceCount(data.getIntExtra(PlayerEditActivity.DiceCount, 6));
                 editedPlayer.setName(data.getStringExtra(PlayerEditActivity.Name));
                 editedPlayer.setColour(data.getIntExtra(PlayerEditActivity.Colour, Color.BLACK));
@@ -129,12 +118,8 @@ public class StartActivity extends AppCompatActivity {
                 break;
 
             case Request_RollDice:
-                ArrayList<Player> newPlayerList = (ArrayList<Player>)data.getSerializableExtra(DiceRollingActivity.PlayerList);
-                for(Player otherPlayer : newPlayerList) {
-                    Player existingPlayer = this.playerList.get(otherPlayer.getId());
-                    existingPlayer.copyFrom(otherPlayer);
-                }
-
+                PlayerList newPlayerList = (PlayerList)data.getSerializableExtra(DiceRollingActivity.PlayerList);
+                this.playerList.copyFrom(newPlayerList);
                 playerListViewAdapter.notifyDataSetChanged();
 
                 break;
