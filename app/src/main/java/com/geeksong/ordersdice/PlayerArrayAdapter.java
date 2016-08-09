@@ -28,10 +28,10 @@ public class PlayerArrayAdapter extends ArrayAdapter<Player> {
     }
 
     @Override
-    public int getCount() { return playerList.size(); }
+    public int getCount() { return playerList.playerCount(); }
 
     @Override
-    public Player getItem(int position) { return this.playerList.getById(position); }
+    public Player getItem(int position) { return this.playerList.getByPosition(position); }
 
     @Override
     public long getItemId(int position) { return position; }
@@ -40,7 +40,7 @@ public class PlayerArrayAdapter extends ArrayAdapter<Player> {
         selectedPlayerPositions.clear();
     }
 
-    public void togglePlayerSelection(int position) {
+    public void togglePlayerSelection(Integer position) {
         if(selectedPlayerPositions.contains(position))
             selectedPlayerPositions.remove(position);
         else
@@ -50,7 +50,7 @@ public class PlayerArrayAdapter extends ArrayAdapter<Player> {
     public Set<Player> getSelectedPlayers() {
         Set<Player> selectedPlayers = new HashSet<>();
         for (int selectedPlayerPosition : selectedPlayerPositions) {
-            selectedPlayers.add(playerList.getById(selectedPlayerPosition));
+            selectedPlayers.add(playerList.getByPosition(selectedPlayerPosition));
         }
         return selectedPlayers;
     }
@@ -79,11 +79,13 @@ public class PlayerArrayAdapter extends ArrayAdapter<Player> {
             holder = (ViewHolder) vi.getTag();
         }
 
-        Player player = playerList.getById(position);
-        holder.name.setText(player.getName());
-        holder.colour.setBackgroundColor(player.getColour());
-        holder.currentDiceCount.setText(String.valueOf(player.getCurrentDiceCount()));
-        holder.initialDiceCount.setText(String.valueOf(player.getInitialDiceCount()));
+        Player player = playerList.getByPosition(position);
+        if(player != null) {
+            holder.name.setText(player.getName());
+            holder.colour.setBackgroundColor(player.getColour());
+            holder.currentDiceCount.setText(String.valueOf(player.getCurrentDiceCount()));
+            holder.initialDiceCount.setText(String.valueOf(player.getInitialDiceCount()));
+        }
 
         return vi;
     }

@@ -15,4 +15,7 @@
     <string name="dice">dice</string>
     <string name="remove_unit">Remove Unit</string>
     <string name="subverter_matrix">Subverter Matrix</string>
+    <string name="vorpal_charge_for">"Vorpal Charge for %s"</string>
+    <string name="remove_player">Remove Player</string>
+    <string name="distort">DISTORT</string>
 </resources>

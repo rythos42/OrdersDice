@@ -12,7 +12,7 @@ public class Player implements Serializable {
     private int initialDiceCount;
     private int colour;
 
-    private static ArrayList<Integer> colours = new ArrayList<Integer>();
+    private static ArrayList<Integer> colours = new ArrayList<>();
 
     static {
         colours.add(Color.BLUE);
@@ -34,12 +34,12 @@ public class Player implements Serializable {
         this.colour = colours.get(id % colours.size());
     }
 
-    public static Player createDistortDicePlayer(int id) {
-        Player distort = new Player(id);
-        distort.setDiceCount(1);
-        distort.setName("DISTORT");
-        distort.setColour(Color.BLACK);
-        return distort;
+    public Player(int id, String name, int diceCount) {
+        this.id = id;
+        this.name = name;
+        this.diceCount = diceCount;
+        this.initialDiceCount = diceCount;
+        this.colour = colours.get(id % colours.size());
     }
 
     public int getId() { return this.id; }
@@ -69,7 +69,11 @@ public class Player implements Serializable {
             this.diceCount--;
     }
 
-    public void addDice() { this.diceCount++; }
+    public void addDice() {
+        this.diceCount++;
+        this.initialDiceCount++;
+    }
+
     public void drawDice() {
         this.diceCount--;
     }
@@ -78,7 +82,7 @@ public class Player implements Serializable {
     public int getColour() { return this.colour; }
     public void setColour(int colour) { this.colour = colour; }
 
-    public void copyFrom(Player other) {
+    public void clone(Player other) {
         this.id = other.id;
         this.name = other.name;
         this.diceCount = other.diceCount;

@@ -33,8 +33,8 @@ public class StartActivity extends AppCompatActivity {
         final StartActivity thisActivity = this;
         if(savedInstanceState == null) {
             this.playerList = new PlayerList();
-            this.playerList.add(new Player(0));
-            this.playerList.add(new Player(1));
+            this.playerList.addNewPlayer();
+            this.playerList.addNewPlayer();
         } else {
             this.playerList = (PlayerList) savedInstanceState.getSerializable(PlayerList);
         }
@@ -56,10 +56,10 @@ public class StartActivity extends AppCompatActivity {
         playerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Player player = playerList.getById(position);
+                Player player = playerList.getByPosition(position);
                 Intent editPlayerIntent = new Intent(thisActivity, PlayerEditActivity.class);
                 editPlayerIntent.putExtra(PlayerEditActivity.DiceCount, player.getCurrentDiceCount());
-                editPlayerIntent.putExtra(PlayerEditActivity.PlayerId, position);
+                editPlayerIntent.putExtra(PlayerEditActivity.PlayerId, player.getId());
                 editPlayerIntent.putExtra(PlayerEditActivity.Name, player.getName());
                 editPlayerIntent.putExtra(PlayerEditActivity.Colour, player.getColour());
 
@@ -69,27 +69,27 @@ public class StartActivity extends AppCompatActivity {
     }
 
     private void addPlayer() {
-        playerList.add(new Player(playerList.size()));
+        playerList.addNewPlayer();
         playerListViewAdapter.notifyDataSetChanged();
     }
 
     private void removePlayer() {
-        if(playerList.size() == 0)
+        if(!playerList.hasPlayers())
             return;
 
-        playerList.removeById(playerList.size() - 1);
+        playerList.removeLastPlayer();
         playerListViewAdapter.notifyDataSetChanged();
     }
 
     private void reset() {
         playerList.clear();
-        playerList.add(new Player(0));
-        playerList.add(new Player(1));
+        playerList.addNewPlayer();
+        playerList.addNewPlayer();
         playerListViewAdapter.notifyDataSetChanged();
     }
 
     private void addDistortDice() {
-        playerList.add(Player.createDistortDicePlayer(playerList.size()));
+        playerList.addDistortDice(getString(R.string.distort));
         playerListViewAdapter.notifyDataSetChanged();
     }
 
@@ -119,7 +119,7 @@ public class StartActivity extends AppCompatActivity {
 
             case Request_RollDice:
                 PlayerList newPlayerList = (PlayerList)data.getSerializableExtra(DiceRollingActivity.PlayerList);
-                this.playerList.copyFrom(newPlayerList);
+                this.playerList.clone(newPlayerList);
                 playerListViewAdapter.notifyDataSetChanged();
 
                 break;
@@ -136,11 +136,13 @@ public class StartActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.addPlayer: addPlayer(); return true;
-            case R.id.removePlayer: removePlayer(); return true;
-            case R.id.reset: reset(); return true;
-            case R.id.addDistortDice: addDistortDice(); return true;
+            case R.id.addPlayer: addPlayer(); break;
+            case R.id.removePlayer: removePlayer(); break;
+            case R.id.reset: reset(); break;
+            case R.id.addDistortDice: addDistortDice(); break;
             default: return super.onOptionsItemSelected(item);
         }
+
+        return true;
     }
 }

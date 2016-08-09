@@ -61,6 +61,15 @@ public class DiceRollingActivity extends AppCompatActivity {
                         case R.id.action_remove_dice: selectedPlayer.removeDice();break;
                         case R.id.action_temporarily_remove_dice: selectedPlayer.temporarilyRemoveDice(); break;
                         case R.id.action_add_dice: selectedPlayer.addDice(); break;
+
+                        case R.id.action_remove_player:
+                            playerList.removeById(selectedPlayer.getId());
+                            break;
+
+                        case R.id.action_add_vorpal_charge:
+                            String vorpalChargeFor = String.format(getResources().getString(R.string.vorpal_charge_for), selectedPlayer.getName());
+                            playerList.addVorpalCharge(vorpalChargeFor);
+                            break;
                         default: return false;
                     }
                 }

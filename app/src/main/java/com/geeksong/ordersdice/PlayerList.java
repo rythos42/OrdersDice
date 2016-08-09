@@ -1,28 +1,77 @@
 package com.geeksong.ordersdice;
 
+import android.graphics.Color;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class PlayerList implements Serializable {
     protected ArrayList<Player> playerList;
+    protected int nextPlayerId = 0;
 
     public PlayerList() {
         this.playerList = new ArrayList<>();
     }
 
-    public int size() { return this.playerList.size(); }
-    public void add(Player player) { this.playerList.add(player); }
-    public void clear() { this.playerList.clear(); }
+    public int playerCount() { return this.playerList.size(); }
 
+    public void clear() {
+        this.playerList.clear();
+        this.nextPlayerId = 0;
+    }
+
+    public boolean hasPlayers() { return !this.playerList.isEmpty(); }
+
+    private int getNextPlayerId() {
+        return nextPlayerId++;
+    }
+
+    public Player addNewPlayer() {
+        Player newPlayer = new Player(getNextPlayerId());
+        this.playerList.add(newPlayer);
+        return newPlayer;
+    }
+
+    public Player addDistortDice(String name) {
+        Player distort = new Player(getNextPlayerId(), name, 1);
+        distort.setColour(Color.BLACK);
+        this.playerList.add(distort);
+        return distort;
+    }
 
     public Player getById(int id) {
+        for(Player player : this.playerList) {
+            if(player.getId() == id)
+                return player;
+        }
+        return null;
+    }
+
+    public Player getByPosition(int position) {
+        // Asked for a player that isn't in this list
+        if(position >= this.playerList.size())
+            return null;
+
         // right now, the index is the ID because there is no player shifting
-        return this.playerList.get(id);
+        return this.playerList.get(position);
+    }
+
+    private Player getByName(String name) {
+        for(Player player : this.playerList) {
+            if(player.getName().equals(name))
+                return player;
+        }
+        return null;
+    }
+
+    public void removeLastPlayer() {
+        this.playerList.remove(playerList.size() - 1);
     }
 
     public void removeById(int id) {
-        this.playerList.remove(id);
+        Player remove = getById(id);
+        this.playerList.remove(remove);
     }
 
     public boolean hasDiceRemaining() {
@@ -61,11 +110,25 @@ public class PlayerList implements Serializable {
             player.resetDice();
     }
 
-    public void copyFrom(PlayerList otherPlayerList) {
-        for(Player otherPlayer : otherPlayerList.playerList) {
-            Player existingPlayer = this.getById(otherPlayer.getId());
-            existingPlayer.copyFrom(otherPlayer);
+    public void clone(PlayerList theirPlayerList) {
+        for(Player theirPlayer : theirPlayerList.playerList) {
+            Player ourPlayer = this.getById(theirPlayer.getId());
+            if(ourPlayer == null)
+                ourPlayer = addNewPlayer();
+
+            ourPlayer.clone(theirPlayer);
         }
+
+        // Ensure we don't have players that they don't have
+        ArrayList<Player> toRemove = new ArrayList<>();
+        for(Player ourPlayer : playerList) {
+            Player theirPlayer = theirPlayerList.getById(ourPlayer.getId());
+            if(theirPlayer == null)
+                toRemove.add(ourPlayer);
+        }
+
+        for(Player ourPlayer : toRemove)
+            playerList.remove(ourPlayer);
     }
 
     public Player block(int blockedPlayerId) {
@@ -74,5 +137,18 @@ public class PlayerList implements Serializable {
         blockedPlayer.putDiceBack();
 
         return drawDiceForPlayer();
+    }
+
+    public void addVorpalCharge(String vorpalChargeFor) {
+        // If there is an existing Vorpal Charge for this player, get it.
+        Player vorpalCharge = getByName(vorpalChargeFor);
+
+        if(vorpalCharge == null) {
+            // If not, create a new one and add it.
+            vorpalCharge = new Player(getNextPlayerId(), vorpalChargeFor, 0);
+            this.playerList.add(vorpalCharge);
+        }
+
+        vorpalCharge.addDice();
     }
 }

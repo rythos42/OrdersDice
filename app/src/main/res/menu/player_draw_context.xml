@@ -19,4 +19,14 @@
         android:title="Plasma Amplifier"
         app:showAsAction="ifRoom" />
 
+    <item
+        android:id="@+id/action_add_vorpal_charge"
+        android:title="Vorpal Charge"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_remove_player"
+        android:title="@string/remove_player"
+        app:showAsAction="ifRoom" />
+
 </menu>
