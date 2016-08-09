@@ -13,4 +13,6 @@
     <string name="minus_sign">-</string>
     <string name="current_initial_dice_separator">/</string>
     <string name="dice">dice</string>
+    <string name="remove_dice">Remove Dice</string>
+    <string name="subverter_matrix">Subverter Matrix</string>
 </resources>

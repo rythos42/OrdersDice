@@ -64,6 +64,11 @@ public class Player implements Serializable {
             this.initialDiceCount--;
     }
 
+    public void temporarilyRemoveDice() {
+        if(this.diceCount > 0)
+            this.diceCount--;
+    }
+
     public void drawDice() {
         this.diceCount--;
     }

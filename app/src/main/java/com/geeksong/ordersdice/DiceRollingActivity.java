@@ -62,6 +62,11 @@ public class DiceRollingActivity extends AppCompatActivity {
                             selectedPlayer.removeDice();
                         mode.finish();
                         return true;
+                    case R.id.action_temporarily_remove_dice:
+                        for(Player selectedPlayer : playerAdapter.getSelectedPlayers())
+                            selectedPlayer.temporarilyRemoveDice();
+                        mode.finish();
+                        return true;
                     default:
                         return false;
                 }
