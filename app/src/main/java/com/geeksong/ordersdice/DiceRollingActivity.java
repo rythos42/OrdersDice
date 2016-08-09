@@ -10,8 +10,6 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-
 public class DiceRollingActivity extends AppCompatActivity {
     public static final String PlayerList = "DiceRolling.PlayerList";
     public static final String DiceList = "DiceRolling.DiceList";
@@ -19,7 +17,7 @@ public class DiceRollingActivity extends AppCompatActivity {
     private PlayerList playerList;
     private PlayerArrayAdapter playerAdapter;
 
-    private ArrayList<Integer> drawnDiceList;
+    private DrawnDiceList drawnDiceList;
     private DrawnDiceArrayAdapter drawnDiceAdapter;
 
     @Override
@@ -34,10 +32,10 @@ public class DiceRollingActivity extends AppCompatActivity {
 
         if(savedInstanceState == null) {
             this.playerList = (PlayerList) getIntent().getSerializableExtra(PlayerList);
-            this.drawnDiceList = new ArrayList<>();
+            this.drawnDiceList = new DrawnDiceList();
         } else {
             this.playerList = (PlayerList) savedInstanceState.getSerializable(PlayerList);
-            this.drawnDiceList = (ArrayList<Integer>) savedInstanceState.getSerializable(DiceList);
+            this.drawnDiceList = (DrawnDiceList) savedInstanceState.getSerializable(DiceList);
         }
         checkDiceInBag();
 
@@ -102,7 +100,7 @@ public class DiceRollingActivity extends AppCompatActivity {
 
     private void addDrawnPlayerToUi(Player player) {
         if(player != null) {
-            drawnDiceList.add(player.getId());
+            drawnDiceList.addDrawnPlayer(player.getId());
             drawnDiceAdapter.notifyDataSetChanged();
 
             playerAdapter.notifyDataSetChanged();
@@ -130,8 +128,9 @@ public class DiceRollingActivity extends AppCompatActivity {
     }
 
     public void blockClick(View view) {
-        int lastDrawnPlayerId = drawnDiceList.remove(drawnDiceList.size() - 1);
-        Player redrawnPlayer = this.playerList.block(lastDrawnPlayerId);
+        DrawnDice lastDrawnPlayer = drawnDiceList.get(drawnDiceList.size() - 1);
+        lastDrawnPlayer.setBlocked();
+        Player redrawnPlayer = this.playerList.block(lastDrawnPlayer.getPlayerId());
         addDrawnPlayerToUi(redrawnPlayer);
     }
 

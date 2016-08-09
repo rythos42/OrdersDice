@@ -26,18 +26,12 @@
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:ems="10"
-            android:id="@+id/playerName"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:id="@+id/playerName" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/playerName"
-            android:layout_toEndOf="@+id/playerName">
+            android:layout_weight="0.5">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -45,38 +39,28 @@
                 android:text="@string/diceLabel"
                 android:id="@+id/diceCountLabel"
                 android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_marginRight="3dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_marginEnd="3dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/currentDiceCount"
-                android:layout_alignParentTop="true"
-                android:layout_toRightOf="@+id/diceCountLabel"
-                android:layout_toEndOf="@+id/diceCountLabel" />
+                android:id="@+id/currentDiceCount" />
 
             <Button
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="+"
-                android:id="@+id/increaseDiceCount"
-                android:layout_alignParentTop="true"
-                android:layout_toRightOf="@+id/currentDiceCount"
-                android:layout_toEndOf="@+id/currentDiceCount" />
+                android:text="@string/plus_sign"
+                android:id="@+id/increaseDiceCount" />
 
             <Button
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="-"
-                android:id="@+id/decreaseDiceCount"
-                android:layout_alignParentTop="true"
-                android:layout_toRightOf="@+id/increaseDiceCount"
-                android:layout_toEndOf="@+id/increaseDiceCount" />
+                android:text="@string/minus_sign"
+                android:id="@+id/decreaseDiceCount" />
         </LinearLayout>
     </LinearLayout>
 

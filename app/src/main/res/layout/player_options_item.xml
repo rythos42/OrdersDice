@@ -27,18 +27,20 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="/"
+        android:text="@string/current_initial_dice_separator"
         android:id="@+id/seperatorLabel" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="3dp"
+        android:layout_marginEnd="3dp"
         android:id="@+id/initialDiceCount" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=" dice"
+        android:text="@string/dice"
         android:id="@+id/diceCountLabel" />
 
 </LinearLayout>

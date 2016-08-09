@@ -4,4 +4,13 @@
     <string name="title_activity_player_edit">PlayerEditActivity</string>
     <string name="diceLabel">Dice:</string>
     <string name="playersLabel">Players:</string>
+    <string name="blocked">BLOCKED!</string>
+    <string name="remaining_dice">Remaining dice:</string>
+    <string name="draw">Draw</string>
+    <string name="next_round">Next Round</string>
+    <string name="block">Block!</string>
+    <string name="plus_sign">+</string>
+    <string name="minus_sign">-</string>
+    <string name="current_initial_dice_separator">/</string>
+    <string name="dice">dice</string>
 </resources>

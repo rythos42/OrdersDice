@@ -8,17 +8,15 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
-public class DrawnDiceArrayAdapter extends ArrayAdapter<Integer> {
-    private ArrayList<Integer> drawnDiceList;
+public class DrawnDiceArrayAdapter extends ArrayAdapter<DrawnDice> {
+    private DrawnDiceList drawnDiceList;
     private PlayerList playerList;
     private int textViewResourceId;
 
     private static LayoutInflater inflater = null;
 
-    public DrawnDiceArrayAdapter(Activity activity, int textViewResourceId, ArrayList<Integer> drawnDiceList, PlayerList playerList) {
-        super(activity, textViewResourceId, drawnDiceList);
+    public DrawnDiceArrayAdapter(Activity activity, int textViewResourceId, DrawnDiceList drawnDiceList, PlayerList playerList) {
+        super(activity, textViewResourceId, drawnDiceList.drawnDiceList);
 
         this.drawnDiceList = drawnDiceList;
         this.playerList = playerList;
@@ -31,7 +29,7 @@ public class DrawnDiceArrayAdapter extends ArrayAdapter<Integer> {
     public int getCount() { return drawnDiceList.size(); }
 
     @Override
-    public Integer getItem(int position) { return this.drawnDiceList.get(position); }
+    public DrawnDice getItem(int position) { return this.drawnDiceList.get(position); }
 
     @Override
     public long getItemId(int position) { return position; }
@@ -39,6 +37,7 @@ public class DrawnDiceArrayAdapter extends ArrayAdapter<Integer> {
     public static class ViewHolder {
         public TextView drawnPlayerName;
         public TextView drawnPlayerColour;
+        public TextView isBlocked;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -50,16 +49,18 @@ public class DrawnDiceArrayAdapter extends ArrayAdapter<Integer> {
             holder = new ViewHolder();
             holder.drawnPlayerName = (TextView) vi.findViewById(R.id.drawnPlayerName);
             holder.drawnPlayerColour = (TextView) vi.findViewById(R.id.drawnPlayerColour);
+            holder.isBlocked = (TextView) vi.findViewById(R.id.blocked);
 
             vi.setTag(holder);
         } else {
             holder = (ViewHolder) vi.getTag();
         }
 
-        int playerId = drawnDiceList.get(position);
-        Player player = playerList.getById(playerId);
+        DrawnDice drawnDice = drawnDiceList.get(position);
+        Player player = playerList.getById(drawnDice.getPlayerId());
         holder.drawnPlayerName.setText(player.getName());
         holder.drawnPlayerColour.setBackgroundColor(player.getColour());
+        holder.isBlocked.setVisibility(drawnDice.isBlocked() ? View.VISIBLE : View.GONE);
 
         return vi;
     }
