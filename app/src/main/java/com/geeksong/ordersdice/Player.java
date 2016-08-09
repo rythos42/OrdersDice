@@ -69,6 +69,7 @@ public class Player implements Serializable {
             this.diceCount--;
     }
 
+    public void addDice() { this.diceCount++; }
     public void drawDice() {
         this.diceCount--;
     }

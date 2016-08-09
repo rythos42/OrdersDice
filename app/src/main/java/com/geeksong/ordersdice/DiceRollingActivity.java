@@ -56,20 +56,17 @@ public class DiceRollingActivity extends AppCompatActivity {
 
             @Override
             public boolean onActionItemClicked(android.view.ActionMode mode, MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.action_remove_dice:
-                        for(Player selectedPlayer : playerAdapter.getSelectedPlayers())
-                            selectedPlayer.removeDice();
-                        mode.finish();
-                        return true;
-                    case R.id.action_temporarily_remove_dice:
-                        for(Player selectedPlayer : playerAdapter.getSelectedPlayers())
-                            selectedPlayer.temporarilyRemoveDice();
-                        mode.finish();
-                        return true;
-                    default:
-                        return false;
+                for(Player selectedPlayer : playerAdapter.getSelectedPlayers()) {
+                    switch (item.getItemId()) {
+                        case R.id.action_remove_dice: selectedPlayer.removeDice();break;
+                        case R.id.action_temporarily_remove_dice: selectedPlayer.temporarilyRemoveDice(); break;
+                        case R.id.action_add_dice: selectedPlayer.addDice(); break;
+                        default: return false;
+                    }
                 }
+
+                mode.finish();
+                return true;
             }
 
             @Override

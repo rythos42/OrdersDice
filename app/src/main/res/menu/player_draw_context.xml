@@ -6,12 +6,17 @@
 
     <item
         android:id="@+id/action_remove_dice"
-        android:title="@string/remove_dice"
+        android:title="@string/remove_unit"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_temporarily_remove_dice"
         android:title="@string/subverter_matrix"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_add_dice"
+        android:title="Plasma Amplifier"
         app:showAsAction="ifRoom" />
 
 </menu>
