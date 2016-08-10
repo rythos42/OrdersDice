@@ -1,32 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="AppCompatResource"
     tools:context="com.geeksong.ordersdice.DiceRollingActivity">
 
     <item
         android:id="@+id/action_remove_dice"
         android:title="@string/remove_unit"
-        app:showAsAction="ifRoom" />
+        android:icon="@drawable/remove_unit"
+        android:showAsAction="always" />
 
     <item
         android:id="@+id/action_remove_player"
         android:title="@string/remove_player"
-        app:showAsAction="ifRoom" />
+        android:icon="@drawable/person_remove_black"
+        android:showAsAction="always" />
 
     <item
         android:id="@+id/action_add_vorpal_charge"
-        android:title="Vorpal Charge"
-        app:showAsAction="ifRoom" />
+        android:title="@string/vorpal_charge"
+        android:icon="@drawable/vorpal_charge"
+        android:showAsAction="always" />
 
     <item
         android:id="@+id/action_temporarily_remove_dice"
         android:title="@string/subverter_matrix"
-        app:showAsAction="ifRoom" />
+        android:icon="@drawable/subverter_matrix"
+        android:showAsAction="always" />
 
     <item
         android:id="@+id/action_add_dice"
-        android:title="Plasma Amplifier"
-        app:showAsAction="ifRoom" />
+        android:title="@string/plasma_amplifier"
+        android:icon="@drawable/plasma_reactor"
+        android:showAsAction="always" />
 
 </menu>

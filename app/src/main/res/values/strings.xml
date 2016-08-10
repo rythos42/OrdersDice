@@ -18,4 +18,9 @@
     <string name="vorpal_charge_for">"Vorpal Charge for %s"</string>
     <string name="remove_player">Remove Player</string>
     <string name="distort">DISTORT</string>
+    <string name="vorpal_charge">Vorpal Charge</string>
+    <string name="plasma_amplifier">Plasma Amplifier</string>
+    <string name="add_player">Add Player</string>
+    <string name="reset">Reset</string>
+    <string name="add_distort_dice">Add Distort Dice</string>
 </resources>

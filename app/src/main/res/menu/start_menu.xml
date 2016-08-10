@@ -3,20 +3,29 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         tools:context="com.geeksong.ordersdice.StartActivity">
-    <item android:id="@+id/addPlayer"
+
+    <item
+        android:id="@+id/addPlayer"
         android:icon="@drawable/ic_person_add_white_24dp"
-        android:title="Add Player"
+        android:title="@string/add_player"
         app:showAsAction="always"/>
-    <item android:id="@+id/removePlayer"
+
+    <item
+        android:id="@+id/removePlayer"
         android:icon="@drawable/ic_person_remove_white_24dp"
-        android:title="Remove Player"
+        android:title="@string/remove_player"
         app:showAsAction="always"/>
-    <item android:id="@+id/reset"
+
+    <item
+        android:id="@+id/reset"
         android:icon="@drawable/ic_group_clear_white_24dp"
-        android:title="Reset"
+        android:title="@string/reset"
         app:showAsAction="always"/>
-    <item android:id="@+id/addDistortDice"
+
+    <item
+        android:id="@+id/addDistortDice"
         android:icon="@drawable/ic_dice_flash_white_24dp"
-        android:title="Add Distort Dice"
+        android:title="@string/add_distort_dice"
         app:showAsAction="always"/>
+
 </menu>
