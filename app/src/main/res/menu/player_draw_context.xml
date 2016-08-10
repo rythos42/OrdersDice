@@ -10,13 +10,8 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_temporarily_remove_dice"
-        android:title="@string/subverter_matrix"
-        app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/action_add_dice"
-        android:title="Plasma Amplifier"
+        android:id="@+id/action_remove_player"
+        android:title="@string/remove_player"
         app:showAsAction="ifRoom" />
 
     <item
@@ -25,8 +20,13 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_remove_player"
-        android:title="@string/remove_player"
+        android:id="@+id/action_temporarily_remove_dice"
+        android:title="@string/subverter_matrix"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_add_dice"
+        android:title="Plasma Amplifier"
         app:showAsAction="ifRoom" />
 
 </menu>
