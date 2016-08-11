@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
-public class DiceRollingActivity extends AppCompatActivity {
+public class DiceRollingActivity extends AppCompatActivity implements IUpdatable {
     public static final String PlayerList = "DiceRolling.PlayerList";
     public static final String DiceList = "DiceRolling.DiceList";
 
@@ -44,7 +44,7 @@ public class DiceRollingActivity extends AppCompatActivity {
         drawnDiceListView.setAdapter(drawnDiceAdapter);
 
         final ListView remainingDiceListView = (ListView) findViewById(R.id.remainingDiceList);
-        playerAdapter = new PlayerArrayAdapter(this, R.layout.player_options_item, playerList);
+        playerAdapter = new PlayerArrayAdapter(this, R.layout.player_draw_item, playerList);
         remainingDiceListView.setAdapter(playerAdapter);
         remainingDiceListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
         remainingDiceListView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
@@ -109,15 +109,17 @@ public class DiceRollingActivity extends AppCompatActivity {
         findViewById(R.id.nextRound).setVisibility(View.VISIBLE);
     }
 
-    private void addDrawnPlayerToUi(Player player) {
-        if(player != null) {
-            drawnDiceList.addDrawnPlayer(player.getId());
-            drawnDiceAdapter.notifyDataSetChanged();
-
-            playerAdapter.notifyDataSetChanged();
-        }
-
+    public void update() {
+        drawnDiceAdapter.notifyDataSetChanged();
+        playerAdapter.notifyDataSetChanged();
         checkDiceInBag();
+    }
+
+    private void addDrawnPlayerToUi(Player player) {
+        if(player != null)
+            drawnDiceList.addDrawnPlayer(player.getId());
+
+        update();
     }
 
     public void drawButtonClick(View v) {

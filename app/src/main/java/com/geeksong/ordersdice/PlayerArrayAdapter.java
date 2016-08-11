@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -16,6 +18,7 @@ public class PlayerArrayAdapter extends ArrayAdapter<Player> {
     private PlayerList playerList;
     private static LayoutInflater inflater = null;
     private int textViewResourceId;
+    private IUpdatable updateOnClick;
     private ArrayList<Integer> selectedPlayerPositions = new ArrayList<>();
 
     public PlayerArrayAdapter(Activity activity, int textViewResourceId, PlayerList playerList) {
@@ -23,6 +26,7 @@ public class PlayerArrayAdapter extends ArrayAdapter<Player> {
 
         this.playerList = playerList;
         this.textViewResourceId = textViewResourceId;
+        this.updateOnClick = (activity instanceof IUpdatable) ? (IUpdatable) activity : null;
 
         inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -60,6 +64,7 @@ public class PlayerArrayAdapter extends ArrayAdapter<Player> {
         public TextView colour;
         public TextView currentDiceCount;
         public TextView initialDiceCount;
+        public ImageView pullDiceButton;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -73,18 +78,31 @@ public class PlayerArrayAdapter extends ArrayAdapter<Player> {
             holder.colour = (TextView) vi.findViewById(R.id.playerColour);
             holder.currentDiceCount = (TextView) vi.findViewById(R.id.currentDiceCount);
             holder.initialDiceCount = (TextView) vi.findViewById(R.id.initialDiceCount);
+            holder.pullDiceButton = (ImageView) vi.findViewById(R.id.pullDiceButton);
 
             vi.setTag(holder);
         } else {
             holder = (ViewHolder) vi.getTag();
         }
 
-        Player player = playerList.getByPosition(position);
+        final Player player = playerList.getByPosition(position);
         if(player != null) {
             holder.name.setText(player.getName());
             holder.colour.setBackgroundColor(player.getColour());
             holder.currentDiceCount.setText(String.valueOf(player.getCurrentDiceCount()));
             holder.initialDiceCount.setText(String.valueOf(player.getInitialDiceCount()));
+
+            if(holder.pullDiceButton != null) {
+                holder.pullDiceButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        player.temporarilyRemoveDice();
+
+                        if(updateOnClick != null)
+                            updateOnClick.update();
+                    }
+                });
+            }
         }
 
         return vi;

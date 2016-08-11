@@ -1,5 +1,6 @@
 package com.geeksong.ordersdice;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.app.NavUtils;
@@ -10,6 +11,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
@@ -133,5 +135,14 @@ public class PlayerEditActivity extends AppCompatActivity {
         this.setResult(RESULT_OK, intent);
 
         super.finish();
+    }
+
+    public void clearName(View view) {
+        EditText playerName = (EditText)findViewById(R.id.playerName);
+        playerName.setText("");
+
+        // bring up the keyboard
+        InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        manager.showSoftInput(playerName, InputMethodManager.SHOW_IMPLICIT);
     }
 }
